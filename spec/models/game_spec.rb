@@ -120,4 +120,76 @@ RSpec.describe Game, type: :model do
       expect(game_w_questions.previous_level).to eq(level - 1)
     end
   end
+  describe '#answer_current_question!' do
+    before do
+      game_w_questions.answer_current_question!(answer_key)
+    end
+
+    context 'when correct answer' do
+      let!(:answer_key) { game_w_questions.current_game_question.correct_answer_key }
+
+      context 'when answer to the last question' do
+        let!(:level) { Question::QUESTION_LEVELS.max }
+        let(:game_w_questions) { FactoryBot.create(:game_with_questions, user: user, current_level: level) }
+
+        it 'finish game' do
+          expect(game_w_questions.finished?).to be true
+        end
+
+        it 'game status won' do
+          expect(game_w_questions.status).to eq :won
+        end
+
+        it 'get final prize' do
+          expect(game_w_questions.prize).to eq(Game::PRIZES.last)
+        end
+
+        it 'increase balance' do
+          expect(user.balance).to eq(Game::PRIZES[Question::QUESTION_LEVELS.max])
+        end
+      end
+
+      context 'when the question is not last' do
+        it 'move next game level' do
+          expect(game_w_questions.current_level).to eq(1)
+        end
+
+        it 'change question' do
+          expect(game_w_questions.current_game_question.level).to eq(1)
+        end
+
+        it 'continue game' do
+          expect(game_w_questions.finished?).to be false
+        end
+      end
+
+      context 'when time has expired' do
+        let!(:game_w_questions) { FactoryBot.create(:game_with_questions, user: user, current_level: 3, created_at: 1.hour.ago) }
+
+        it 'return false' do
+          expect(game_w_questions.answer_current_question!(answer_key)).to be false
+        end
+
+        it 'finish the game' do
+          expect(game_w_questions.finished?).to be true
+        end
+
+        it 'finish with status timeout' do
+          expect(game_w_questions.status).to eq(:timeout)
+        end
+      end
+    end
+
+    context 'when wrong answer' do
+      let!(:answer_key) { (%w[a b c d] - [game_w_questions.current_game_question.correct_answer_key]).sample }
+
+      it 'finish the game' do
+        expect(game_w_questions.finished?).to be true
+      end
+
+      it 'return fail' do
+        expect(game_w_questions.status).to eq :fail
+      end
+    end
+  end
 end
