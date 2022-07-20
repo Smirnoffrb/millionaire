@@ -170,6 +170,8 @@ RSpec.describe GamesController, type: :controller do
           expect(response).to redirect_to(game_path(game))
         end
       end
+
+
     end
   end
 
@@ -201,6 +203,61 @@ RSpec.describe GamesController, type: :controller do
 
         expect(response).to redirect_to(user_path(user))
         expect(flash[:warning]).to be
+      end
+    end
+  end
+
+  describe '#help' do
+    before do
+      sign_in user
+    end
+
+    context 'fifty-fifty help' do
+      context 'when help not used' do
+        before do
+          expect(game_w_questions.current_game_question.help_hash[:fifty_fifty]).not_to be
+          expect(game_w_questions.fifty_fifty_used).to be false
+
+          put :help, id: game_w_questions.id, help_type: :fifty_fifty
+        end
+
+        let!(:game) { assigns(:game) }
+
+        it 'use fifty-fifty help' do
+          expect(game.fifty_fifty_used).to be true
+        end
+
+        it 'add fifty-fifty help to help hash' do
+          expect(game.current_game_question.help_hash).to include(:fifty_fifty)
+        end
+
+        it 'add fifry-fifty help to array of 2 elements' do
+          expect(game.current_game_question.help_hash[:fifty_fifty].size).to eq 2
+        end
+
+        it 'adds fifty-fifty help with correct answer key' do
+          correct_answer_key = game.current_game_question.correct_answer_key
+          expect(game.current_game_question.help_hash[:fifty_fifty]).to include(correct_answer_key)
+        end
+      end
+
+      context 'when help already used' do
+        before do
+          game_w_questions.fifty_fifty_used = true
+          game_w_questions.save
+
+          put :help, id: game_w_questions.id, help_type: :fifty_fifty
+        end
+
+        let!(:game) { assigns(:game) }
+
+        it 'flash alert' do
+          expect(flash[:alert]).to be
+        end
+
+        it 'redirect to game path' do
+          expect(response).to redirect_to(game_path(game))
+        end
       end
     end
   end
