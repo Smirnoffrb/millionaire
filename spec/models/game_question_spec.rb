@@ -74,5 +74,20 @@ RSpec.describe GameQuestion, type: :model do
       expect(game_question.text).to eq(game_question.question.text)
       expect(game_question.level).to eq(game_question.question.level)
     end
+
+    # проверяем работу 50/50
+    it 'correct fifty_fifty' do
+      # сначала убедимся, в подсказках пока нет нужного ключа
+      expect(game_question.help_hash).not_to include(:fifty_fifty)
+      # вызовем подсказку
+      game_question.add_fifty_fifty
+
+      # проверим создание подсказки
+      expect(game_question.help_hash).to include(:fifty_fifty)
+      ff = game_question.help_hash[:fifty_fifty]
+
+      expect(ff).to include('b') # должен остаться правильный вариант
+      expect(ff.size).to eq 2 # всего должно остаться 2 варианта
+    end
   end
 end
