@@ -130,7 +130,7 @@ RSpec.describe GamesController, type: :controller do
       context 'wrong answer' do
         before {
           put :answer, id: game_w_questions.id,
-              letter: (%w(a b c d) - [game_w_questions.current_game_question.correct_answer_key]).sample
+              letter: (%w[a b c d] - [game_w_questions.current_game_question.correct_answer_key]).sample
         }
 
         let(:game) { assigns(:game) }
@@ -170,8 +170,6 @@ RSpec.describe GamesController, type: :controller do
           expect(response).to redirect_to(game_path(game))
         end
       end
-
-
     end
   end
 
