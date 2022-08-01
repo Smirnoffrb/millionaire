@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'USER views another user', type: :feature do
+RSpec.feature 'USER views another users', type: :feature do
   let(:user) { FactoryBot.create(:user, name: 'Михаил') }
 
   let(:game1) do
@@ -9,7 +9,7 @@ RSpec.feature 'USER views another user', type: :feature do
       user: user,
       current_level: 8,
       prize: 8000,
-      created_at: '23 июля, 22:20')
+      created_at: '01 авг., 16:20')
   end
 
   let(:game2) do
@@ -20,8 +20,8 @@ RSpec.feature 'USER views another user', type: :feature do
       prize: 32000,
       is_failed: true,
       fifty_fifty_used: true,
-      created_at: '23 июля, 22:30',
-      finished_at: '23 июля, 22:40'
+      created_at: '01 авг., 16:30',
+      finished_at: '01 авг., 16:40'
     )
   end
 
@@ -32,12 +32,12 @@ RSpec.feature 'USER views another user', type: :feature do
     click_link 'Михаил'
   end
 
-  feature 'unregistered user views another user' do
+  feature 'unregistered users views another users' do
     scenario 'gets required url' do
-      expect(page).to have_current_path '/users/1'
+      expect(page).to have_current_path "/users/#{user.id}"
     end
 
-    scenario 'gets name of user' do
+    scenario 'gets name of users' do
       expect(page).to have_content 'Михаил'
     end
 
@@ -47,7 +47,7 @@ RSpec.feature 'USER views another user', type: :feature do
 
     feature 'game1' do
       scenario 'gets time game1' do
-        expect(page).to have_content '23 июля, 22:20'
+        expect(page).to have_content '01 авг., 16:20'
       end
 
       scenario 'gets number of question' do
@@ -65,7 +65,7 @@ RSpec.feature 'USER views another user', type: :feature do
 
     feature 'game2' do
       scenario 'gets time game2' do
-        expect(page).to have_content '23 июля, 22:30'
+        expect(page).to have_content '01 авг., 16:30'
       end
 
       scenario 'gets number of question' do
@@ -78,10 +78,6 @@ RSpec.feature 'USER views another user', type: :feature do
 
       scenario 'is failed' do
         expect(page).to have_content 'проигрыш'
-      end
-
-      scenario 'gets prize' do
-        expect(page).to have_content '32 000 ₽'
       end
     end
   end

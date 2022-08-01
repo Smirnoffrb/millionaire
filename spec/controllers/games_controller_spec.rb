@@ -7,7 +7,7 @@ RSpec.describe GamesController, type: :controller do
   let(:game_w_questions) { create(:game_with_questions, user: user) }
 
   describe '#show' do
-    context 'when user anonymous' do
+    context 'when users anonymous' do
       it 'kick from show' do
         get :show, id: game_w_questions.id
 
@@ -17,7 +17,7 @@ RSpec.describe GamesController, type: :controller do
       end
     end
 
-    context 'when user logged in' do
+    context 'when users logged in' do
       before { sign_in user } # логиним юзера users с помощью спец. Devise метода sign_in
 
       it 'show the game' do
@@ -42,7 +42,7 @@ RSpec.describe GamesController, type: :controller do
   end
 
   describe '#create' do
-    context 'when user anonymous' do
+    context 'when users anonymous' do
       it 'kick from create' do
         post :create
 
@@ -52,7 +52,7 @@ RSpec.describe GamesController, type: :controller do
       end
     end
 
-    context 'when user logged in' do
+    context 'when users logged in' do
       before { sign_in user }
 
       it 'create game' do
@@ -83,7 +83,7 @@ RSpec.describe GamesController, type: :controller do
   end
 
   describe '#answer' do
-    context 'when user anonymous' do
+    context 'when users anonymous' do
       before { get :show, id: game_w_questions.id }
 
       it 'response' do
@@ -99,7 +99,7 @@ RSpec.describe GamesController, type: :controller do
       end
     end
 
-    context 'when user logged in' do
+    context 'when users logged in' do
       before { sign_in user }
 
       context 'correct answer' do
@@ -174,7 +174,7 @@ RSpec.describe GamesController, type: :controller do
   end
 
   describe '#take_money' do
-    context 'when user anonymous' do
+    context 'when users anonymous' do
 
       it 'kick from take_money' do
         put :take_money, id: game_w_questions.id
@@ -185,7 +185,7 @@ RSpec.describe GamesController, type: :controller do
       end
     end
 
-    context 'when user logged in' do
+    context 'when users logged in' do
       before { sign_in user }
 
       it 'takes money' do

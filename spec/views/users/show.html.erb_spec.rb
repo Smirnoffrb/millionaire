@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'users/show', type: :view do
-  context 'when user on own page' do
+  context 'when users on own page' do
     let(:current_user) { assign(:user, FactoryBot.build_stubbed(:user, name: 'Михаил')) }
 
     before do
@@ -15,14 +15,14 @@ RSpec.describe 'users/show', type: :view do
     end
   end
 
-  context 'when user on other user page' do
+  context 'when users on other users page' do
     before do
       assign(:user, FactoryBot.build_stubbed(:user, name: 'Михаил'))
 
       render
     end
 
-    it 'renders user name' do
+    it 'renders users name' do
       expect(rendered).to match 'Михаил'
     end
 
