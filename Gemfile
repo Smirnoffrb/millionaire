@@ -12,9 +12,10 @@ gem 'devise-i18n'
 
 gem 'uglifier', '>= 1.3.0'
 
+gem 'sass'
+
 gem 'jquery-rails'
 gem 'twitter-bootstrap-rails'
-gem 'sass'
 gem 'font-awesome-rails'
 gem 'russian'
 
