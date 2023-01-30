@@ -36,5 +36,5 @@ group :production do
   # гем, улучшающий вывод логов на Heroku
   # https://devcenter.heroku.com/articles/getting-started-with-rails4#heroku-gems
   gem 'rails_12factor'
-  gem 'pg', '~> 0.18'
+  gem 'pg', '>= 1.0'
 end
