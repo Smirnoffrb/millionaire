@@ -14,6 +14,7 @@ gem 'uglifier', '>= 1.3.0'
 
 gem 'jquery-rails'
 gem 'twitter-bootstrap-rails'
+gem 'sass'
 gem 'font-awesome-rails'
 gem 'russian'
 
