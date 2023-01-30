@@ -14,6 +14,8 @@ gem 'uglifier', '>= 1.3.0'
 
 gem 'sass'
 
+gem 'therubyracer'
+
 gem 'jquery-rails'
 gem 'twitter-bootstrap-rails'
 gem 'font-awesome-rails'
@@ -37,5 +39,5 @@ group :production do
   # гем, улучшающий вывод логов на Heroku
   # https://devcenter.heroku.com/articles/getting-started-with-rails4#heroku-gems
   gem 'rails_12factor'
-  gem 'pg', '>= 1.0'
+  gem 'pg', '>= 1.4.5'
 end
